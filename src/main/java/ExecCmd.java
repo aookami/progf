@@ -26,20 +26,31 @@ public class ExecCmd extends Thread{
     @Override
     public void run(){
         try{
+            //CapturaSaida err = new CapturaSaida(proc.getErrorStream());
+            //CapturaSaida out = new CapturaSaida(proc.getInputStream());
+            
             proc = Runtime.getRuntime().exec(cmd);
-            wait();
-        }catch(InterruptedException e){
+            
+            //err.start();
+            //out.start();
+            
+            proc.waitFor();
         } 
         catch (IOException ex) {
-            Logger.getLogger(ExecCmd.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Não foi possivel executar o comando.");
+        } catch (InterruptedException ex) {
+            System.out.println("O processo terminou.");
         }
     }
     
-    public void cancela(){
+    public synchronized void cancela(){
         proc.destroy();
     }
     
-    public boolean terminado(){
-        return proc.isAlive();
+    public synchronized boolean terminado(){
+        if(proc != null)
+            return !proc.isAlive();
+        return false;
     }
+    
 }
