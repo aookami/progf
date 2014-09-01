@@ -13,7 +13,12 @@ import java.util.Scanner;
  * @author Guilherme Jacichen <gui_jaci@utfpr.edu.br>
  */
 public class Pratica93 {
-   
+    
+    public static void main(String[] args){
+        
+    }
+            
+   /*
     public static void main(String[] args) throws IOException, InterruptedException {
         Runtime rt = Runtime.getRuntime();
         List<ExecCmd> comandos = new ArrayList<>();
@@ -54,5 +59,5 @@ public class Pratica93 {
         }
         
         System.out.print("");
-    }
+    }*/
 }

@@ -26,11 +26,11 @@ public class ExecCmd extends Thread{
     @Override
     public void run(){
         try{
-            //CapturaSaida captura = new CapturaSaida(proc.getInputStream(),new PrintStream(proc.getOutputStream()));
+            CapturaSaida captura = new CapturaSaida(proc.getInputStream(),System.out);
             
             proc = Runtime.getRuntime().exec(cmd);
             
-            //captura.start();
+            captura.start();
 
             synchronized(proc){
                 proc.waitFor();
