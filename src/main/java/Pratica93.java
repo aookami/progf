@@ -1,5 +1,8 @@
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * UTFPR - Universidade Tecnológica Federal do Paraná
@@ -10,14 +13,21 @@ import java.io.IOException;
  * @author Guilherme Jacichen <gui_jaci@utfpr.edu.br>
  */
 public class Pratica93 {
-    public static void main(String[] args) throws IOException {
+   
+    public static void main(String[] args) throws IOException, InterruptedException {
         Runtime rt = Runtime.getRuntime();
-        Process proc = rt.exec("oi");
-        CapturaSaida out = new CapturaSaida(proc.getInputStream());
+        List<ExecCmd> comandos = new ArrayList<>();
+        Scanner LER_TEC = new Scanner(System.in);
+        String cmd;
+        
+        while(true){
+            cmd = LER_TEC.next();      
 
-        out.start();
-
-        int status = proc.waitFor();
-        System.out.println("Processo terminado com status " + status);
+            if(!cmd.toLowerCase().equals("fim")){
+            comandos.add(new ExecCmd(cmd));
+            comandos.get(comandos.size()-1).start();
+            }
+        }
+        
     }
 }
