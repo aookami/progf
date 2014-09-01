@@ -21,13 +21,38 @@ public class Pratica93 {
         String cmd;
         
         while(true){
+            System.out.print("comando> ");
             cmd = LER_TEC.next();      
 
             if(!cmd.toLowerCase().equals("fim")){
-            comandos.add(new ExecCmd(cmd));
-            comandos.get(comandos.size()-1).start();
+                comandos.add(new ExecCmd(cmd));
+                comandos.get(comandos.size()-1).start();
+                
+            }else{
+                
+                int soma = 0;
+                char resposta;
+               
+                for(ExecCmd p: comandos)
+                    soma += p.terminado()?0:1;
+                
+                System.out.print("Há " + soma + 
+                        " processos em execução. Deseja terminá-los? <y/n>");
+                
+                do
+                    resposta = LER_TEC.next().charAt(0);
+                while(resposta != 'y' && resposta != 'n');
+                
+                if(resposta == 'n')
+                    continue;
+                
+                for(ExecCmd p: comandos)
+                    p.cancela();
+                
+                break;
             }
         }
         
+        System.out.print("");
     }
 }

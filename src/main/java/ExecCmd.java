@@ -1,5 +1,6 @@
 
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.logging.Logger;
 
 /*
@@ -25,15 +26,16 @@ public class ExecCmd extends Thread{
     @Override
     public void run(){
         try{
-            //CapturaSaida err = new CapturaSaida(proc.getErrorStream());
-            //CapturaSaida out = new CapturaSaida(proc.getInputStream());
+            //CapturaSaida captura = new CapturaSaida(proc.getInputStream(),new PrintStream(proc.getOutputStream()));
             
             proc = Runtime.getRuntime().exec(cmd);
             
-            //err.start();
-            //out.start();
-            
-            proc.waitFor();
+            //captura.start();
+
+            synchronized(proc){
+                proc.waitFor();
+                
+            }
         } 
         catch (IOException ex) {
             System.out.println("Não foi possivel executar o comando.");
@@ -43,7 +45,8 @@ public class ExecCmd extends Thread{
     }
     
     public synchronized void cancela(){
-        proc.destroy();
+        if(proc != null)
+           proc.destroy();
     }
     
     public synchronized boolean terminado(){
