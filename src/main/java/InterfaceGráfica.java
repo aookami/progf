@@ -1,6 +1,9 @@
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,6 +26,7 @@ public class InterfaceGráfica extends javax.swing.JFrame {
     //inicializando lista processos
     Runtime rt = Runtime.getRuntime();
     List<ExecCmd> lista = new ArrayList<>();
+    ExecCmd cmd;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,7 +55,7 @@ public class InterfaceGráfica extends javax.swing.JFrame {
         labelComando.setText("Comando:");
 
         Table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            new ExecCmd [][] {
                 {null},
                 {null},
                 {null},
@@ -67,7 +71,9 @@ public class InterfaceGráfica extends javax.swing.JFrame {
                 "Title 1"
             }
         ));
+        Table.setColumnSelectionAllowed(true);
         jScrollPane2.setViewportView(Table);
+        Table.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         Execute.setText("Execute");
         Execute.addActionListener(new java.awt.event.ActionListener() {
@@ -89,11 +95,15 @@ public class InterfaceGráfica extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(caixaComando)
-                    .addComponent(labelComando, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2))
-                .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(caixaComando, javax.swing.GroupLayout.DEFAULT_SIZE, 452, Short.MAX_VALUE)
+                            .addComponent(labelComando, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(8, 8, 8))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(Execute, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Kill, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -103,16 +113,17 @@ public class InterfaceGráfica extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(labelComando)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(3, 3, 3)
                         .addComponent(caixaComando))
                     .addComponent(Execute))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
-                    .addComponent(Kill))
-                .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(Kill)
+                        .addContainerGap(187, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)))
         );
 
         pack();
@@ -123,20 +134,29 @@ public class InterfaceGráfica extends javax.swing.JFrame {
     }//GEN-LAST:event_caixaComandoActionPerformed
 
     private void ExecuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExecuteActionPerformed
-        // TODO add your handling code here:
-        //string da caixa de texto é um novo obj e é executado
-        //ExecCmd cmd = new ExecCmd(caixaComando.getText());
-        //cmd.run();
-        System.out.println(caixaComando.getText());
-        ExecCmd cmd = new ExecCmd(caixaComando.getText());      
-        lista.add(cmd);
-        cmd.start();
+        try {
+            // TODO add your handling code here:
+            //string da caixa de texto é um novo obj e é executado
+            //ExecCmd cmd = new ExecCmd(caixaComando.getText());
+            //cmd.run();
+            
+            cmd = new ExecCmd(caixaComando.getText());
+            cmd.start();
+            
+            lista.add(cmd);
+            Table.setValueAt(cmd, lista.size()-1, 0);
+        } catch (IOException ex) {
+            Logger.getLogger(InterfaceGráfica.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
     }//GEN-LAST:event_ExecuteActionPerformed
 
     private void KillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KillActionPerformed
         // TODO add your handling code here:
-        lista.get(Table.getSelectedRow()).cancela();
+        //lista.get(Table.getSelectedRow()-1).cancela();
+        //lista.remove(Table.getSelectedRow()-1);
+        Table.getValueAt(Table.getSelectedRow(), 0).cancela();
+        
     }//GEN-LAST:event_KillActionPerformed
 
     /**
