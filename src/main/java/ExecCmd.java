@@ -1,6 +1,7 @@
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /*
@@ -16,21 +17,33 @@ import java.util.logging.Logger;
 public class ExecCmd extends Thread{
     
     protected Process proc;
-    final String cmd;
+    String cmd;
 
     
-    public ExecCmd(String cmd){
+    public ExecCmd(String cmd) throws IOException{
+        this.cmd = cmd;
+        
+    }
+    public void setCmd(String cmd){
         this.cmd = cmd;
     }
+    /*@Override
+    public void run(){
+        try {
+            Runtime.getRuntime().exec(this.cmd);
+        } catch (IOException ex) {
+            Logger.getLogger(ExecCmd.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }*/
     
     @Override
     public void run(){
         try{
-            CapturaSaida captura = new CapturaSaida(proc.getInputStream(),System.out);
+            //CapturaSaida captura = new CapturaSaida(proc.getInputStream(),System.out);
             
             proc = Runtime.getRuntime().exec(cmd);
             
-            captura.start();
+           // captura.start();
 
             synchronized(proc){
                 proc.waitFor();
@@ -40,13 +53,14 @@ public class ExecCmd extends Thread{
         catch (IOException ex) {
             System.out.println("Não foi possivel executar o comando.");
         } catch (InterruptedException ex) {
-            System.out.println("O processo terminou.");
+            Logger.getLogger(ExecCmd.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public synchronized void cancela(){
-        if(proc != null)
+   
+    public void cancela(){   
+        if(proc!=null)
            proc.destroy();
+           System.out.println("CANCELAAAAA");      
     }
     
     public synchronized boolean terminado(){
