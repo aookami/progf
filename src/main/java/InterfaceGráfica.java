@@ -1,3 +1,7 @@
+
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -16,7 +20,9 @@ public class InterfaceGráfica extends javax.swing.JFrame {
     public InterfaceGráfica() {
         initComponents();
     }
-
+    //inicializando lista processos
+    Runtime rt = Runtime.getRuntime();
+    List<ExecCmd> lista = new ArrayList<>();
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,8 +34,10 @@ public class InterfaceGráfica extends javax.swing.JFrame {
 
         caixaComando = new javax.swing.JTextField();
         labelComando = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        Table = new javax.swing.JTable();
+        Execute = new javax.swing.JButton();
+        Kill = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -42,9 +50,38 @@ public class InterfaceGráfica extends javax.swing.JFrame {
 
         labelComando.setText("Comando:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        Table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "Title 1"
+            }
+        ));
+        jScrollPane2.setViewportView(Table);
+
+        Execute.setText("Execute");
+        Execute.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ExecuteActionPerformed(evt);
+            }
+        });
+
+        Kill.setText("Kill");
+        Kill.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                KillActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -52,24 +89,29 @@ public class InterfaceGráfica extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(caixaComando)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelComando)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 106, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addComponent(labelComando, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2))
+                .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(Execute, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Kill, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(labelComando)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(caixaComando))
+                    .addComponent(Execute))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(caixaComando, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                    .addComponent(Kill))
                 .addContainerGap())
         );
 
@@ -79,6 +121,23 @@ public class InterfaceGráfica extends javax.swing.JFrame {
     private void caixaComandoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_caixaComandoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_caixaComandoActionPerformed
+
+    private void ExecuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExecuteActionPerformed
+        // TODO add your handling code here:
+        //string da caixa de texto é um novo obj e é executado
+        //ExecCmd cmd = new ExecCmd(caixaComando.getText());
+        //cmd.run();
+        System.out.println(caixaComando.getText());
+        ExecCmd cmd = new ExecCmd(caixaComando.getText());      
+        lista.add(cmd);
+        cmd.start();
+        
+    }//GEN-LAST:event_ExecuteActionPerformed
+
+    private void KillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KillActionPerformed
+        // TODO add your handling code here:
+        lista.get(Table.getSelectedRow()).cancela();
+    }//GEN-LAST:event_KillActionPerformed
 
     /**
      * @param args the command line arguments
@@ -116,9 +175,11 @@ public class InterfaceGráfica extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Execute;
+    private javax.swing.JButton Kill;
+    private javax.swing.JTable Table;
     private javax.swing.JTextField caixaComando;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelComando;
     // End of variables declaration//GEN-END:variables
 }
