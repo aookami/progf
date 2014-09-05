@@ -144,7 +144,7 @@ public class InterfaceGráfica extends javax.swing.JFrame {
             cmd.start();
             
             lista.add(cmd);
-            Table.setValueAt(cmd, lista.size()-1, 0);
+            Table.setValueAt(cmd.cmd, lista.size()-1, 0);
         } catch (IOException ex) {
             Logger.getLogger(InterfaceGráfica.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -155,7 +155,18 @@ public class InterfaceGráfica extends javax.swing.JFrame {
         // TODO add your handling code here:
         //lista.get(Table.getSelectedRow()-1).cancela();
         //lista.remove(Table.getSelectedRow()-1);
-        Table.getValueAt(Table.getSelectedRow(), 0).cancela();
+        System.out.println(lista.size());
+        lista.get(Table.getSelectedRow()).cancela();
+        lista.remove(Table.getSelectedRow());
+
+        Table.setModel(Table.getModel());
+        int i = 0;
+        for(ExecCmd a : lista){
+            if(a != null)
+                Table.setValueAt(a.cmd, i, 0);
+            i++;
+        }
+        Table.setValueAt(null, i, 0);
         
     }//GEN-LAST:event_KillActionPerformed
 
