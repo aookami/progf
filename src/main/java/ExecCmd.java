@@ -51,7 +51,12 @@ public class ExecCmd extends Thread{
             }
         } 
         catch (IOException ex) {
-            System.out.println("Não foi possivel executar o comando.");
+            System.out.println("Não foi possivel executar o comando.");           
+           proc.destroyForcibly();
+           this.cancela();
+           cmd = null;
+            
+           
         } catch (InterruptedException ex) {
             Logger.getLogger(ExecCmd.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -60,7 +65,7 @@ public class ExecCmd extends Thread{
     public void cancela(){   
         if(proc!=null)
            proc.destroy();
-           System.out.println("CANCELAAAAA");      
+                
     }
     
     public synchronized boolean terminado(){
