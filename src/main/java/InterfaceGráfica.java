@@ -1,4 +1,5 @@
 
+import java.awt.event.ComponentListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,98 +55,9 @@ public class InterfaceGráfica extends javax.swing.JFrame {
 
         labelComando.setText("Comando:");
 
+        Table.setAutoCreateRowSorter(true);
         Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
                 {null},
                 {null},
                 {null},
@@ -158,7 +70,7 @@ public class InterfaceGráfica extends javax.swing.JFrame {
                 {null}
             },
             new String [] {
-                "Title 1"
+                "Comandos em execução:"
             }
         ));
         Table.setColumnSelectionAllowed(true);
@@ -228,6 +140,7 @@ public class InterfaceGráfica extends javax.swing.JFrame {
             cmd.run();
             if(!(cmd.cmd == null)){
             lista.add(cmd);
+            //Table.addComponentListener((ComponentListener) lista);
             Table.setValueAt(cmd.cmd, lista.size()-1, 0);
             }
         }catch(IOException io){
