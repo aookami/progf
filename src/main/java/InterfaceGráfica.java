@@ -225,14 +225,15 @@ public class InterfaceGráfica extends javax.swing.JFrame {
     private void ExecuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExecuteActionPerformed
         try{
             cmd = new ExecCmd(caixaComando.getText());
-            cmd.start();
-            if(!cmd.terminado()){
+            cmd.run();
+            if(!(cmd.cmd == null)){
             lista.add(cmd);
             Table.setValueAt(cmd.cmd, lista.size()-1, 0);
             }
         }catch(IOException io){
         }
-        
+        catch(NullPointerException Npr){
+        }
     }//GEN-LAST:event_ExecuteActionPerformed
 
     private void KillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KillActionPerformed
