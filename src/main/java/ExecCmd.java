@@ -45,20 +45,17 @@ public class ExecCmd extends Thread{
             
            // captura.start();
 
-            synchronized(proc){
-                proc.waitFor();
-                
-            }
+           /* synchronized(proc){
+                proc.waitFor();                
+            }*/ 
         } 
         catch (IOException ex) {
-            System.out.println("Não foi possivel executar o comando.");           
+           System.out.println("Não foi possivel executar o comando.");           
            proc.destroyForcibly();
            this.cancela();
            cmd = null;
             
            
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ExecCmd.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
    
