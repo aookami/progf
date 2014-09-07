@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -21,8 +22,10 @@ public class InterfaceGráfica extends javax.swing.JFrame {
     /**
      * Creates new form InterfaceGráfica
      */
+    DefaultTableModel model;
     public InterfaceGráfica() {
         initComponents();
+        model = (DefaultTableModel)Table.getModel();
     }
     //inicializando lista processos
     Runtime rt = Runtime.getRuntime();
@@ -58,16 +61,7 @@ public class InterfaceGráfica extends javax.swing.JFrame {
         Table.setAutoCreateRowSorter(true);
         Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null}
+
             },
             new String [] {
                 "Comandos em execução:"
@@ -135,13 +129,16 @@ public class InterfaceGráfica extends javax.swing.JFrame {
     }//GEN-LAST:event_caixaComandoActionPerformed
 
     private void ExecuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExecuteActionPerformed
+        
         try{
             cmd = new ExecCmd(caixaComando.getText());
             cmd.run();
             if(!(cmd.cmd == null)){
             lista.add(cmd);
-            //Table.addComponentListener((ComponentListener) lista);
-            Table.setValueAt(cmd.cmd, lista.size()-1, 0);
+            //Criar uma tabela que cresce conforme é inserido conteudo.
+            model.insertRow(model.getRowCount(), new Object[]{lista.get(0).cmd});
+            //Table.setValueAt(cmd.cmd, lista.size()-1, 0);           
+            
             }
         }catch(IOException io){
         }
@@ -156,9 +153,8 @@ public class InterfaceGráfica extends javax.swing.JFrame {
     
        if(Table.getValueAt(Table.getSelectedRow(),0)!= null) {
         lista.get(Table.getSelectedRow()).cancela();
-        lista.remove(Table.getSelectedRow());
-
-        Table.setModel(Table.getModel());
+        lista.remove(Table.getSelectedRow());        
+        Table.setModel(Table.getModel());        
         int i = 0;
         for(ExecCmd a : lista){
             if(a != null)
@@ -166,6 +162,7 @@ public class InterfaceGráfica extends javax.swing.JFrame {
             i++;
         }
         Table.setValueAt(null, i, 0);
+        model.removeRow(Table.getSelectedRow());
        }
         
     }//GEN-LAST:event_KillActionPerformed
