@@ -156,6 +156,7 @@ public class InterfaceGráfica extends javax.swing.JFrame {
     
        if(Table.getValueAt(Table.getSelectedRow(),0)!= null) {
         lista.get(Table.getSelectedRow()).cancela();
+        lista.get(Table.getSelectedRow()).timer.cancel();
         lista.remove(Table.getSelectedRow());        
         Table.setModel(Table.getModel());        
         int i = 0;
