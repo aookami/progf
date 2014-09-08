@@ -20,6 +20,7 @@ public class ExecCmd extends Thread{
     protected Process proc;
     String cmd;
     Timer timer = new Timer();
+    Integer isonline = 1;
     
     public ExecCmd(String cmd) throws IOException{
         this.cmd = cmd;
