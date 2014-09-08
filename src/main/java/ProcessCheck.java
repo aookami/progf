@@ -18,10 +18,15 @@ public class ProcessCheck extends TimerTask {
     public ProcessCheck(ExecCmd cmd){
         this.cmd = cmd;
     }
+    
+    public void RemoveTable(ExecCmd cmd){
+        this.cmd = cmd;
+    }
 
     @Override
     public void run() {
         if(cmd.terminado()){
+            System.out.println(cmd.toString() + "TERMINADO!");
             cmd.cancela();
             
         }else
