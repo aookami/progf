@@ -153,8 +153,8 @@ public class InterfaceGráfica extends javax.swing.JFrame {
         // TODO add your handling code here:
         //lista.get(Table.getSelectedRow()-1).cancela();
         //lista.remove(Table.getSelectedRow()-1);
-    
-       if(Table.getValueAt(Table.getSelectedRow(),0)!= null) {
+        try{
+        if(Table.getValueAt(Table.getSelectedRow(),0)!= null) {
         lista.get(Table.getSelectedRow()).cancela();
         lista.get(Table.getSelectedRow()).timer.cancel();
         lista.remove(Table.getSelectedRow());        
@@ -167,6 +167,8 @@ public class InterfaceGráfica extends javax.swing.JFrame {
             i++;
         }
         
+       }}catch(IndexOutOfBoundsException npr){
+           System.out.println("Nenhum processo selecionado!");
        }
         
     }//GEN-LAST:event_KillActionPerformed
