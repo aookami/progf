@@ -160,12 +160,13 @@ public class InterfaceGráfica extends javax.swing.JFrame {
         lista.remove(Table.getSelectedRow());        
         Table.setModel(Table.getModel());        
         int i = 0;
+        model.removeRow(Table.getSelectedRow());
         for(ExecCmd a : lista){
             if(a != null)
                 Table.setValueAt(a.cmd, i, 0);
             i++;
         }
-        model.removeRow(Table.getSelectedRow());
+        
        }
         
     }//GEN-LAST:event_KillActionPerformed
