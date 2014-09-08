@@ -1,6 +1,7 @@
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,7 +19,7 @@ public class ExecCmd extends Thread{
     
     protected Process proc;
     String cmd;
-
+    Timer timer = new Timer();
     
     public ExecCmd(String cmd) throws IOException{
         this.cmd = cmd;

@@ -3,6 +3,7 @@ import java.awt.event.ComponentListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -135,6 +136,8 @@ public class InterfaceGráfica extends javax.swing.JFrame {
             cmd.run();
             if(!(cmd.cmd == null)){
             lista.add(cmd);
+            
+            cmd.timer.scheduleAtFixedRate(new ProcessCheck(cmd), 500, 500);
             //Criar uma tabela que cresce conforme é inserido conteudo.
             model.insertRow(model.getRowCount(), new Object[]{lista.get(0).cmd});
             //Table.setValueAt(cmd.cmd, lista.size()-1, 0);           
