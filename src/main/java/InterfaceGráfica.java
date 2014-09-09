@@ -139,7 +139,7 @@ public class InterfaceGráfica extends javax.swing.JFrame {
             
             cmd.timer.scheduleAtFixedRate(new ProcessCheck(cmd, Table,lista, model), 500, 500);
             //Criar uma tabela que cresce conforme é inserido conteudo.
-            model.insertRow(model.getRowCount(), new Object[]{lista.get(0).cmd});
+            model.insertRow(model.getRowCount(), new Object[]{cmd.cmd});
             //Table.setValueAt(cmd.cmd, lista.size()-1, 0);           
             
             }
